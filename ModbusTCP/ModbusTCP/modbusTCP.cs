@@ -704,7 +704,12 @@ namespace ModbusTCP
         {
             Int32 size = tcpAsyCl.EndSend(result);
             if (result.IsCompleted == false) CallException(0xFFFF, 0xFF, 0xFF, excSendFailt);
-            else tcpAsyCl.BeginReceive(tcpAsyClBuffer, 0, tcpAsyClBuffer.Length, SocketFlags.None, new AsyncCallback(OnReceive), tcpAsyCl);
+            else {
+                try{
+                    tcpAsyCl.BeginReceive(tcpAsyClBuffer, 0, tcpAsyClBuffer.Length, SocketFlags.None, new AsyncCallback(OnReceive), tcpAsyCl);
+                }
+                 catch (Exception) { }
+            }
         }
 
         // ------------------------------------------------------------------------
